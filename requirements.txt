@@ -10,3 +10,4 @@ joblib
 great-expectations
 pytest
 ipykernel
+statsmodels
