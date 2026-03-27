@@ -1,0 +1,24 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python scripts/run_pipeline.py --input data/raw/dataset.csv --target 
+      Churn
+    deps:
+    - path: data/raw/dataset.csv
+      hash: md5
+      md5: 0f9de68e012bd3aed5fa7cdc9fc421af
+      size: 977501
+    - path: scripts/run_pipeline.py
+      hash: md5
+      md5: 890bf97854594119951fadc4ca95364b
+      size: 6755
+    outs:
+    - path: data/processed/telco_churn_processed.csv
+      hash: md5
+      md5: 9038619b7274f411478b04eb64db9a29
+      size: 892559
+    - path: serving/models
+      hash: md5
+      md5: 10f26a91f5e50f3073cc5a081b1d6cbd.dir
+      size: 1664913
+      nfiles: 2

@@ -1,0 +1,9 @@
+stages:
+  train:
+    cmd: python scripts/run_pipeline.py --input data/raw/dataset.csv --target Churn
+    deps:
+      - scripts/run_pipeline.py
+      - data/raw/dataset.csv
+    outs:
+      - data/processed/telco_churn_processed.csv
+      - serving/models

@@ -1,0 +1,49 @@
+# =========================
+# Virtual environments
+# =========================
+.venv/
+venv/
+env/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+
+# =========================
+# Python cache
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+
+# =========================
+# MLflow
+# =========================
+mlruns/
+artifacts/
+
+# =========================
+# DVC cache (IMPORTANT)
+# =========================
+.dvc/cache/
+
+# =========================
+# Data (handled by DVC)
+# =========================
+data/raw/*.csv
+data/processed/*.csv
+
+# BUT keep DVC tracking files
+!data/raw/*.dvc
+!data/processed/*.dvc
+
+# =========================
+# Models (generated output)
+# =========================
+serving/models/
+
+# =========================
+# (Optional) logs
+# =========================
+*.log
