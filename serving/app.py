@@ -1,31 +1,54 @@
 from fastapi import FastAPI
 import joblib
+import pandas as pd
+import json
 
 app = FastAPI()
 
-# Load both models
-model1 = joblib.load("serving/models/model_top1.pkl")
-model2 = joblib.load("serving/models/model_top2.pkl")
+# =========================
+# LOAD ARTIFACTS
+# =========================
 
+# Load trained model
+model = joblib.load("serving/models/model.pkl")
+
+# Load feature column order
+with open("artifacts/feature_columns.json") as f:
+    feature_columns = json.load(f)
+
+# Load threshold
+with open("artifacts/threshold.txt") as f:
+    THRESHOLD = float(f.read())
+
+
+# =========================
+# ROUTES
+# =========================
 
 @app.get("/")
 def home():
-    return {"message": "API is running"}
+    return {"message": "Churn Prediction API is running 🚀"}
 
 
 @app.post("/predict")
 def predict(data: dict):
     try:
-        # Convert input to list
-        features = list(data.values())
+        # Convert input JSON to DataFrame
+        df = pd.DataFrame([data])
 
-        # Predictions
-        pred1 = model1.predict([features])
-        pred2 = model2.predict([features])
+        # Align columns with training data
+        df = df.reindex(columns=feature_columns, fill_value=0)
+
+        # Predict probability
+        proba = model.predict_proba(df)[:, 1]
+
+        # Apply threshold
+        pred = (proba >= THRESHOLD).astype(int)
 
         return {
-            "model_top1_prediction": int(pred1[0]),
-            "model_top2_prediction": int(pred2[0])
+            "prediction": int(pred[0]),
+            "churn_probability": float(proba[0]),
+            "threshold_used": THRESHOLD
         }
 
     except Exception as e:

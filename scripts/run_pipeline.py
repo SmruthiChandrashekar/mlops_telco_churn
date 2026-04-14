@@ -199,6 +199,15 @@ def main(args):
             mlflow.sklearn.log_model(best["model"], "model")
 
         print(f"✅ Saved model_top{i+1}.pkl → {model_path}")
+    # =========================
+    # SAVE FINAL PRODUCTION MODEL
+    # =========================
+    final_model = all_models[0]["model"]  # best model (highest recall)
+
+    final_model_path = os.path.join(models_dir, "model.pkl")
+    joblib.dump(final_model, final_model_path)
+
+    print(f"🔥 Final model saved → {final_model_path}")
 
     print("\n🎯 All tuning runs completed!")
 
