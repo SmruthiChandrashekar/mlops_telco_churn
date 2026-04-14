@@ -12,4 +12,4 @@ pytest
 ipykernel
 statsmodels
 xgboost
-evidently==0.4.20s
+evidently==0.4.20
