@@ -4,6 +4,7 @@ import pandas as pd
 from evidently.report import Report
 from evidently.metric_preset import DataDriftPreset
 import os
+import subprocess
 from src.logger import get_logger
 
 logger = get_logger(__name__)
@@ -12,6 +13,20 @@ DATA_PATH   = "data/raw/dataset.csv"
 REPORT_PATH = "monitoring/report.html"
 DATE_COLUMN = None  # set to your date column e.g. "signup_date"
 SPLIT_DATE  = None  # e.g. "2024-06-01"
+
+def trigger_retraining():
+    try:
+        logger.info("Starting retraining pipeline...")
+        result = subprocess.run(
+            ["python", "src/train.py"],
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        logger.info("Retraining completed successfully")
+        logger.info(result.stdout)
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Retraining failed — {e.stderr}")
 
 def run_drift():
     logger.info("Loading dataset...")
@@ -48,13 +63,19 @@ def run_drift():
         report = Report(metrics=[DataDriftPreset()])
         report.run(reference_data=ref, current_data=curr)
 
-        # drift summary
         drifted = report.as_dict()["metrics"][0]["result"]["dataset_drift"]
         logger.info(f"Dataset drift detected: {drifted}")
 
         os.makedirs(os.path.dirname(REPORT_PATH), exist_ok=True)
         report.save_html(REPORT_PATH)
         logger.info(f"Report saved to {REPORT_PATH}")
+
+        # CT — trigger retraining if drift detected
+        if drifted:
+            logger.warning("Drift detected! Triggering retraining...")
+            trigger_retraining()
+        else:
+            logger.info("No drift detected. Model is stable.")
 
     except Exception as e:
         logger.error(f"Failed to generate report — {e}")
