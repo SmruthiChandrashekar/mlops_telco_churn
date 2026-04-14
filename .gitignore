@@ -10,3 +10,6 @@ data/processed/*
 
 mlruns/
 artifacts/
+
+logs/
+monitoring/report.html
