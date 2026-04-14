@@ -34,4 +34,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: ${{ github.event_name == 'push' }}
-          tags: anasriad8/telco-fastapi:latest
+          tags: smruthi18/telco-churn:latest
