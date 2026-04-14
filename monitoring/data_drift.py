@@ -8,7 +8,7 @@ from src.logger import get_logger
 
 logger = get_logger(__name__)
 
-DATA_PATH   = "data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+DATA_PATH   = "data/raw/dataset.csv"
 REPORT_PATH = "monitoring/report.html"
 DATE_COLUMN = None  # set to your date column e.g. "signup_date"
 SPLIT_DATE  = None  # e.g. "2024-06-01"
