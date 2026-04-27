@@ -13,3 +13,4 @@ ipykernel
 statsmodels
 xgboost
 evidently==0.4.20
+streamlit
