@@ -417,15 +417,7 @@ The dataset used is the [IBM Telco Customer Churn dataset](https://www.kaggle.co
 | Precision | ~0.65           |
 | F1 Score  | ~0.71           |
 
-> Recall is prioritized over precision to minimize the cost of missing a churner. The default decision threshold is set to **0.35** (lower than 0.5) to increase sensitivity.
-
----
-
-## Author
-
-**Smruthi Chandrashekar**
-- GitHub: [@SmruthiChandrashekar](https://github.com/SmruthiChandrashekar)
-- Docker Hub: [smruthi18](https://hub.docker.com/u/smruthi18)
+> Recall is prioritized over precision to minimize the cost of missing a churner. The default decision threshold is set to **0.35** (lower than 0.5) to increase sensitivity
 
 ---
 
